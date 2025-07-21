@@ -6,32 +6,33 @@ export class TimeDepositCalculator {
   constructor(private readonly timeDepositRepository: TimeDepositRepository) {}
 
   public updateBalance(timeDeposits: TimeDeposit[]) {
-    this.calculateDepositInterests(timeDeposits)
+    var timeDepositsWithInterests = this.calculateDepositInterests(timeDeposits)
 
-    this.timeDepositRepository.updateAll(timeDeposits)
+    this.timeDepositRepository.updateAll(timeDepositsWithInterests)
   };
 
   private calculateDepositInterests(timeDeposits: TimeDeposit[]) {
-    for (let depositIndex = 0; depositIndex < timeDeposits.length; depositIndex++) {
+    return timeDeposits.map(deposit => {
       let interest = 0
-
-      if (timeDeposits[depositIndex].days > 30) {
-        if (timeDeposits[depositIndex].planType === 'student') {
-          if (timeDeposits[depositIndex].days < 366) {
-            interest += (timeDeposits[depositIndex].balance * 0.03) / 12
+      if (deposit.days > 30) {
+        if (deposit.planType === 'student') {
+          if (deposit.days < 366) {
+            interest += (deposit.balance * 0.03) / 12
           }
-        } else if (timeDeposits[depositIndex].planType === 'premium') {
-          if (timeDeposits[depositIndex].days > 45) {
-            interest += (timeDeposits[depositIndex].balance * 0.05) / 12
+        } else if (deposit.planType === 'premium') {
+          if (deposit.days > 45) {
+            interest += (deposit.balance * 0.05) / 12
           }
-        } else if (timeDeposits[depositIndex].planType === 'basic') {
-          interest += (timeDeposits[depositIndex].balance * 0.01) / 12
+        } else if (deposit.planType === 'basic') {
+          interest += (deposit.balance * 0.01) / 12
         }
       }
-
       const roundedInterest = Math.round((interest + Number.EPSILON) * 100) / 100
-
-      timeDeposits[depositIndex].balance += roundedInterest
-    }
+      const balance = deposit.balance + roundedInterest
+      return {
+        ...deposit,
+        balance
+      }
+    })
   }
 }
