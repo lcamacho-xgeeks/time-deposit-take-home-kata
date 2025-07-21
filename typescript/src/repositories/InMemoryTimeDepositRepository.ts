@@ -1,4 +1,4 @@
-import type { TimeDepositRepository } from "../interfaces/TimeDepositRepository";
+import type { TimeDepositRepository } from "./TimeDepositRepository";
 import type { TimeDeposit } from "../TimeDeposit";
 
 export class InMemoryTimeDepositRepository implements TimeDepositRepository {

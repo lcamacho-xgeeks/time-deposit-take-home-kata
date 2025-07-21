@@ -1,3 +1,7 @@
+import { BasicPlanInterestCalculator } from '../interest-calculators/BasicPlanInterestCalculator'
+import { InterestCalculator } from '../interest-calculators/InterestCalculator'
+import { PremiumPlanInterestCalculator } from '../interest-calculators/PremiumPlanInterestCalculator'
+import { StudentPlanInterestCalculator } from '../interest-calculators/StudentPlanInterestCalculator'
 import { InMemoryTimeDepositRepository } from '../repositories/InMemoryTimeDepositRepository'
 import { TimeDeposit } from '../TimeDeposit'
 import { TimeDepositCalculator } from '../TimeDepositCalculator'
@@ -5,12 +9,17 @@ import { TimeDepositCalculator } from '../TimeDepositCalculator'
 describe('TimeDepositCalculator', () => {
   let repository: InMemoryTimeDepositRepository
   let calculator: TimeDepositCalculator
+  const interestCalculators: InterestCalculator[] = [
+    new BasicPlanInterestCalculator(), 
+    new PremiumPlanInterestCalculator(), 
+    new StudentPlanInterestCalculator()
+  ]
 
   describe('Basic plan type', () => {
     test('Should update basic balance when days > 30', () => {
       const deposits = [new TimeDeposit(1, 'basic', 1234567.0, 45)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -21,7 +30,7 @@ describe('TimeDepositCalculator', () => {
     test('Should not update basic balance when days <= 30', () => {
       const deposits = [new TimeDeposit(1, 'basic', 1000.0, 30)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -32,7 +41,7 @@ describe('TimeDepositCalculator', () => {
     test('Should calculate basic interest correctly (1% annual)', () => {
       const deposits = [new TimeDeposit(1, 'basic', 12000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -45,7 +54,7 @@ describe('TimeDepositCalculator', () => {
     test('Should update student balance when days > 30 and < 366', () => {
       const deposits = [new TimeDeposit(1, 'student', 10000.0, 100)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -56,7 +65,7 @@ describe('TimeDepositCalculator', () => {
     test('Should not update student balance when days <= 30', () => {
       const deposits = [new TimeDeposit(1, 'student', 10000.0, 25)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -67,7 +76,7 @@ describe('TimeDepositCalculator', () => {
     test('Should not update student balance when days >= 366', () => {
       const deposits = [new TimeDeposit(1, 'student', 10000.0, 400)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -78,7 +87,7 @@ describe('TimeDepositCalculator', () => {
     test('Should calculate student interest correctly (3% annual)', () => {
       const deposits = [new TimeDeposit(1, 'student', 12000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -91,7 +100,7 @@ describe('TimeDepositCalculator', () => {
     test('Should update premium balance when days > 45', () => {
       const deposits = [new TimeDeposit(1, 'premium', 10000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -102,7 +111,7 @@ describe('TimeDepositCalculator', () => {
     test('Should not update premium balance when days <= 45', () => {
       const deposits = [new TimeDeposit(1, 'premium', 10000.0, 45)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -113,7 +122,7 @@ describe('TimeDepositCalculator', () => {
     test('Should calculate premium interest correctly (5% annual)', () => {
       const deposits = [new TimeDeposit(1, 'premium', 12000.0, 90)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -126,7 +135,7 @@ describe('TimeDepositCalculator', () => {
     test('Should not update balance for unknown plan type', () => {
       const deposits = [new TimeDeposit(1, 'unknown', 10000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -139,7 +148,7 @@ describe('TimeDepositCalculator', () => {
     test('Should not apply interest when days = 30 (boundary case)', () => {
       const deposits = [new TimeDeposit(1, 'basic', 10000.0, 30)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -150,7 +159,7 @@ describe('TimeDepositCalculator', () => {
     test('Should apply interest when days = 31 (just over threshold)', () => {
       const deposits = [new TimeDeposit(1, 'basic', 12000.0, 31)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -161,7 +170,7 @@ describe('TimeDepositCalculator', () => {
     test('Premium: Should not apply interest when days = 45 (boundary case)', () => {
       const deposits = [new TimeDeposit(1, 'premium', 10000.0, 45)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -172,7 +181,7 @@ describe('TimeDepositCalculator', () => {
     test('Premium: Should apply interest when days = 46 (just over threshold)', () => {
       const deposits = [new TimeDeposit(1, 'premium', 12000.0, 46)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -183,7 +192,7 @@ describe('TimeDepositCalculator', () => {
     test('Student: Should apply interest when days = 365 (just under threshold)', () => {
       const deposits = [new TimeDeposit(1, 'student', 12000.0, 365)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -194,7 +203,7 @@ describe('TimeDepositCalculator', () => {
     test('Student: Should not apply interest when days = 366 (boundary case)', () => {
       const deposits = [new TimeDeposit(1, 'student', 10000.0, 366)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -210,7 +219,7 @@ describe('TimeDepositCalculator', () => {
         new TimeDeposit(2, 'basic', 20000.0, 45)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -226,7 +235,7 @@ describe('TimeDepositCalculator', () => {
         new TimeDeposit(3, 'premium', 12000.0, 60)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -244,7 +253,7 @@ describe('TimeDepositCalculator', () => {
         new TimeDeposit(4, 'student', 10000.0, 400)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -260,7 +269,7 @@ describe('TimeDepositCalculator', () => {
     test('Should handle empty array gracefully', () => {
       const deposits: TimeDeposit[] = []
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -270,7 +279,7 @@ describe('TimeDepositCalculator', () => {
     test('Should handle zero balance deposits', () => {
       const deposits = [new TimeDeposit(1, 'basic', 0.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -281,7 +290,7 @@ describe('TimeDepositCalculator', () => {
     test('Should handle very small balance amounts', () => {
       const deposits = [new TimeDeposit(1, 'basic', 0.01, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -292,7 +301,7 @@ describe('TimeDepositCalculator', () => {
     test('Should handle large balance amounts', () => {
       const deposits = [new TimeDeposit(1, 'premium', 1000000000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -305,7 +314,7 @@ describe('TimeDepositCalculator', () => {
     test('Should persist updates to repository', () => {
       const deposits = [new TimeDeposit(1, 'basic', 10000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       const originalBalance = repository.getAll()[0].balance
       calculator.updateBalance(deposits)
@@ -322,7 +331,7 @@ describe('TimeDepositCalculator', () => {
         new TimeDeposit(99, 'student', 15000.0, 100)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -338,7 +347,7 @@ describe('TimeDepositCalculator', () => {
         new TimeDeposit(3, 'premium', 20000.0, 80)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
@@ -351,7 +360,7 @@ describe('TimeDepositCalculator', () => {
     test('Should maintain days after update', () => {
       const deposits = [new TimeDeposit(1, 'basic', 10000.0, 75)]
       repository = new InMemoryTimeDepositRepository(deposits)
-      calculator = new TimeDepositCalculator(repository)
+      calculator = new TimeDepositCalculator(repository, interestCalculators)
       
       calculator.updateBalance(deposits)
 
