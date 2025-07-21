@@ -1,5 +1,4 @@
-import { TimeDeposit } from "../TimeDeposit";
-import { InterestCalculator } from "./InterestCalculator";
+import { InterestCalculator } from "./InterestCalculator.interface";
 
 export class PremiumPlanInterestCalculator implements InterestCalculator {
     calculateInterests(deposit: TimeDeposit): number {

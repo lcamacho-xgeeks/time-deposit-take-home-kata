@@ -1,5 +1,5 @@
-import { TimeDeposit } from "../TimeDeposit";
-import { InterestCalculator } from "./InterestCalculator";
+import { TimeDeposit } from "../../entities/TimeDeposit";
+import { InterestCalculator } from "./InterestCalculator.interface";
 
 export class BasicPlanInterestCalculator implements InterestCalculator {
     calculateInterests(deposit: TimeDeposit): number {

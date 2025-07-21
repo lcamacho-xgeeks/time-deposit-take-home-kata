@@ -1,5 +1,5 @@
-import type { TimeDepositRepository } from "./TimeDepositRepository";
-import type { TimeDeposit } from "../TimeDeposit";
+import { TimeDeposit } from "../../entities/TimeDeposit";
+import type { TimeDepositRepository } from "./TimeDepositRepository.interface";
 
 export class InMemoryTimeDepositRepository implements TimeDepositRepository {
     

@@ -1,4 +1,4 @@
-import  type { TimeDeposit } from "../TimeDeposit";
+import { TimeDeposit } from "../../entities/TimeDeposit";
 
 export interface TimeDepositRepository {
     updateAll(timeDeposits: TimeDeposit[]);

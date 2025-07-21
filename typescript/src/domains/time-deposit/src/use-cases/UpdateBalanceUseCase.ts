@@ -1,8 +1,6 @@
-import type { TimeDeposit } from './TimeDeposit'
-import type { TimeDepositRepository } from './repositories/TimeDepositRepository'
-import type { InterestCalculator } from './interest-calculators/InterestCalculator'
+import { InterestCalculator, TimeDeposit, TimeDepositRepository } from '@time-deposit-kata/time-deposit-domain'
 
-export class TimeDepositCalculator {
+export class UpdateBalanceUseCase {
 
   constructor(
     private readonly timeDepositRepository: TimeDepositRepository,
