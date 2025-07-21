@@ -1,6 +1,10 @@
-import { TimeDeposit } from './TimeDeposit'
+import type { TimeDeposit } from './TimeDeposit'
+import type { TimeDepositRepository } from './interfaces/TimeDepositRepository'
 
 export class TimeDepositCalculator {
+
+  constructor(private readonly timeDepositRepository: TimeDepositRepository) {}
+
   public updateBalance(xs: TimeDeposit[]) {
     for (let i = 0; i < xs.length; i++) {
       let a = 0
@@ -23,5 +27,7 @@ export class TimeDepositCalculator {
 
       xs[i].balance += a2d
     }
+
+    this.timeDepositRepository.updateAll(xs)
   };
 }
