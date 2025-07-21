@@ -39,7 +39,7 @@ This is optional, you can choose to use `npm` itself.
 
 ### Test suite while watching
 
-`yarn test`
+`yarn test:watch`
 
 ### Run server
 

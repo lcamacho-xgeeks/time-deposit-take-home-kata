@@ -1,5 +1,7 @@
 // Time Deposit Domain Exports
 export * from './entities/TimeDeposit';
+export * from './entities/TimeDepositAggregate';
+export * from './entities/Withdrawal';
 export * from './ports/interest-calculators/InterestCalculator.interface';
 export * from './ports/interest-calculators/BasicPlanInterestCalculator';
 export * from './ports/interest-calculators/PremiumPlanInterestCalculator';
