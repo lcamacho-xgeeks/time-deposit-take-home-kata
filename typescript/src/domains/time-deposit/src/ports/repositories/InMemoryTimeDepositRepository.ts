@@ -1,21 +1,21 @@
 import type { TimeDeposit } from "../../entities/TimeDeposit";
 import type { TimeDepositWithWithdrawal } from "../../entities/TimeDepositAggregate";
-import type { TimeDepositWithWithdrawalRepository } from "./TimeDepositWithdrawlRepository.interface";
 import type { TimeDepositRepository } from "./TimeDepositRepository.interface";
+import { TimeDepositWithWithdrawalRepository } from "./TimeDepositWithdrawalRepository.interface";
 
 
 export class InMemoryTimeDepositRepository implements TimeDepositRepository, TimeDepositWithWithdrawalRepository {
     constructor(private database: TimeDepositWithWithdrawal[] = []) {}
 
-    getAllDepositsWithWithdrawals(): TimeDepositWithWithdrawal[] {
+    async getAllDepositsWithWithdrawals(): Promise<TimeDepositWithWithdrawal[]> {
         return this.database
     }
 
-    updateAll(timeDeposits: TimeDepositWithWithdrawal[]) {
+    async updateAll(timeDeposits: TimeDepositWithWithdrawal[]): Promise<void> {
         this.database = timeDeposits;
     }
 
-    getAll(): TimeDeposit[] {
+    async getAll(): Promise<TimeDeposit[]> {
         return this.database
     }
 }

@@ -14,8 +14,11 @@
   "scripts": {
     "dev": "yarn workspace api run dev",
     "start": "yarn workspace api run serve",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "db:migrate": "yarn workspace @time-deposit-kata/time-deposit-adapters run db:migrate",
+    "test": "jest --testPathIgnorePatterns=integration",
+    "test:watch": "jest --testPathIgnorePatterns=integration --watch",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:integration:watch": "jest --testPathPattern=integration --watch"
   },
   "engines": {
     "node": ">=16.0.0"

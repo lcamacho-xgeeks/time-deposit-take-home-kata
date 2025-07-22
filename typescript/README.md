@@ -31,6 +31,15 @@ This is optional, you can choose to use `npm` itself.
 
 `yarn install` or `npm install`
 
+### Setup the database
+
+`docker compose up -d`
+
+Setup the environment variables
+`mv src/adapters/time-deposit/.env.example src/adapters/time-deposit/.env`
+
+`yarn db:migrate`
+
 ## Run the server
 
 ### Dev server while watching

@@ -1,0 +1,23 @@
+{
+  "name": "@time-deposit-kata/time-deposit-adapters",
+  "version": "1.0.0",
+  "description": "Time deposit adapters package",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "private": true,
+  "dependencies": {
+    "@prisma/client": "6.12.0",
+    "@time-deposit-kata/time-deposit-domain": "workspace:*",
+    "prisma": "^6.12.0"
+  },
+  "scripts": {
+    "db:generate": "npx prisma generate",
+    "db:migrate": "npx prisma migrate dev"
+  },
+  "devDependencies": {
+    "@types/pg": "^8",
+    "pg": "^8.16.3",
+    "testcontainers": "^11.3.2",
+    "typescript": "4.8.3"
+  }
+}

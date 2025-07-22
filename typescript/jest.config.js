@@ -11,8 +11,13 @@ module.exports = {
       testMatch: ['<rootDir>/src/domains/*/src/**/*.test.ts']
     },
     {
+      displayName: 'integration', 
+      testMatch: ['<rootDir>/src/adapters/*/src/**/*.integration.test.ts'],
+    },
+    {
       displayName: 'adapters',
-      testMatch: ['<rootDir>/src/adapters/*/src/**/*.test.ts']
+      testMatch: ['<rootDir>/src/adapters/*/src/**/*.test.ts'],
+      testPathIgnorePatterns: ['integration']
     },
     {
       displayName: 'applications',

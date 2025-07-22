@@ -5,7 +5,6 @@ test('GET /deposits', async () => {
     
     const res = await app.request('/deposits')
     expect(res.status).toBe(200)
-
     const data = await res.json()
     expect(data.length).toBe(3)
     expect(data[0].id).toBe(1)
