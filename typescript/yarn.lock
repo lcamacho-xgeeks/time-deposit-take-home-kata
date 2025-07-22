@@ -2057,7 +2057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@time-deposit-kata/time-deposit-adapters@workspace:src/adapters/time-deposit":
+"@time-deposit-kata/time-deposit-adapters@workspace:*, @time-deposit-kata/time-deposit-adapters@workspace:src/adapters/time-deposit":
   version: 0.0.0-use.local
   resolution: "@time-deposit-kata/time-deposit-adapters@workspace:src/adapters/time-deposit"
   dependencies:
@@ -2067,6 +2067,7 @@ __metadata:
     pg: "npm:^8.16.3"
     prisma: "npm:^6.12.0"
     testcontainers: "npm:^11.3.2"
+    tsx: "npm:^4.20.3"
     typescript: "npm:4.8.3"
   languageName: unknown
   linkType: soft
@@ -2411,6 +2412,7 @@ __metadata:
   resolution: "api@workspace:src/apps/api"
   dependencies:
     "@hono/node-server": "npm:^1.17.1"
+    "@time-deposit-kata/time-deposit-adapters": "workspace:*"
     "@time-deposit-kata/time-deposit-domain": "workspace:*"
     hono: "npm:^4.8.5"
     tsx: "npm:^4.7.0"
@@ -6073,7 +6075,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.7.0":
+"tsx@npm:^4.20.3, tsx@npm:^4.7.0":
   version: 4.20.3
   resolution: "tsx@npm:4.20.3"
   dependencies:

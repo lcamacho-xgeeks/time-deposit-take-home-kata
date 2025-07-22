@@ -15,6 +15,7 @@
     "dev": "yarn workspace api run dev",
     "start": "yarn workspace api run serve",
     "db:migrate": "yarn workspace @time-deposit-kata/time-deposit-adapters run db:migrate",
+    "db:seed": "yarn workspace @time-deposit-kata/time-deposit-adapters run db:seed",
     "test": "jest --testPathIgnorePatterns=integration",
     "test:watch": "jest --testPathIgnorePatterns=integration --watch",
     "test:integration": "jest --testPathPattern=integration",

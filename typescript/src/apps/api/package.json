@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.17.1",
+    "@time-deposit-kata/time-deposit-adapters": "workspace:*",
     "@time-deposit-kata/time-deposit-domain": "workspace:*",
     "hono": "^4.8.5"
   },

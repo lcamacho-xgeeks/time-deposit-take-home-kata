@@ -33,12 +33,21 @@ This is optional, you can choose to use `npm` itself.
 
 ### Setup the database
 
+start docker services
+
 `docker compose up -d`
 
 Setup the environment variables
+
 `mv src/adapters/time-deposit/.env.example src/adapters/time-deposit/.env`
 
+Run the database migrations
+
 `yarn db:migrate`
+
+Create database seed
+
+`yarn db:seed`
 
 ## Run the server
 

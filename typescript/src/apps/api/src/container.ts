@@ -1,33 +1,34 @@
 import {
   GetAllDepositsUseCase,
   UpdateBalanceUseCase,
-  InMemoryTimeDepositRepository,
   BasicPlanInterestCalculator,
   PremiumPlanInterestCalculator,
   StudentPlanInterestCalculator,
   type InterestCalculator,
-  TimeDepositWithWithdrawal,
-  Withdrawal
+  TimeDepositRepository,
+  TimeDepositWithWithdrawalRepository
 } from '@time-deposit-kata/time-deposit-domain';
+import { SQLTimeDepositRepository, PrismaClient } from '@time-deposit-kata/time-deposit-adapters';
+import { env } from 'node:process';
 
 export class Container {
   private static instance: Container;
   
-  private timeDepositRepository: InMemoryTimeDepositRepository;
+  private timeDepositRepository: TimeDepositRepository & TimeDepositWithWithdrawalRepository;
   private interestCalculators: InterestCalculator[];
   private getAllDepositsUseCase: GetAllDepositsUseCase;
   private updateBalanceUseCase: UpdateBalanceUseCase;
 
   private constructor() {
-    const withdrawals1 = [new Withdrawal(1, 500.0, new Date('2024-01-15'))]
-    const withdrawals2 = [new Withdrawal(2, 1000.0, new Date('2024-02-10')), new Withdrawal(3, 250.0, new Date('2024-02-20'))]
-    const deposits = [
-      new TimeDepositWithWithdrawal(1, 'basic', 10000.0, 60, withdrawals1),
-      new TimeDepositWithWithdrawal(2, 'student', 15000.0, 100, withdrawals2),
-      new TimeDepositWithWithdrawal(3, 'premium', 20000.0, 80)
-    ]
+    const prismaClient = new PrismaClient({
+      datasources: {
+        db: {
+          url: env.DATABASE_URL,
+        },
+      },
+    });
     //This will replaced by a database repository
-    this.timeDepositRepository = new InMemoryTimeDepositRepository(deposits);
+    this.timeDepositRepository = new SQLTimeDepositRepository(prismaClient);
     this.interestCalculators = [
       new BasicPlanInterestCalculator(),
       new PremiumPlanInterestCalculator(),
