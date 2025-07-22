@@ -1,6 +1,6 @@
-import { Withdrawal } from "./Withdrawal"
+import type { Withdrawal } from "./Withdrawal"
 
-export class TimeDepositAggregate {
+export class TimeDepositWithWithdrawal {
   constructor(
     public id: number,
     public planType: string,

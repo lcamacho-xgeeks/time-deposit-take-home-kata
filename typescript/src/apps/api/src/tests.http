@@ -1,0 +1,12 @@
+PUT http://localhost:3000/deposits/update-balance HTTP/1.1
+
+{
+    "deposits": [
+        {
+            "id": 1,
+            "planType": "premium",
+            "balance": 23321,
+            "days": 6000
+        }
+    ]
+} 

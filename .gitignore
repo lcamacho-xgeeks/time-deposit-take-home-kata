@@ -8,3 +8,5 @@ __pycache__/
 .idea/
 package-lock.json
 .vscode/
+typescript/.yarn/install-state.gz
+typescript/yarn-error.log

@@ -1,4 +1,6 @@
-import { InterestCalculator, TimeDeposit, TimeDepositRepository } from '@time-deposit-kata/time-deposit-domain'
+import type { TimeDeposit } from "../entities/TimeDeposit"
+import type { InterestCalculator } from "../ports/interest-calculators/InterestCalculator.interface"
+import type { TimeDepositRepository } from "../ports/repositories/TimeDepositRepository.interface"
 
 export class UpdateBalanceUseCase {
 
@@ -8,7 +10,7 @@ export class UpdateBalanceUseCase {
   ) {}
 
   public updateBalance(timeDeposits: TimeDeposit[]) {
-    var timeDepositsWithInterests = this.calculateDepositInterests(timeDeposits)
+    const timeDepositsWithInterests = this.calculateDepositInterests(timeDeposits)
 
     this.timeDepositRepository.updateAll(timeDepositsWithInterests)
   };
@@ -16,7 +18,7 @@ export class UpdateBalanceUseCase {
   private calculateDepositInterests(timeDeposits: TimeDeposit[]) {
     return timeDeposits.map(deposit => {
       const calculator = this.getCalculator(deposit.planType)
-      let interest = calculator?.calculateInterests(deposit) || 0 // if calculator is not found set interest to zero
+      const interest = calculator?.calculateInterests(deposit) || 0 // if calculator is not found set interest to zero
       const balance = deposit.balance + interest
       return {
         ...deposit,

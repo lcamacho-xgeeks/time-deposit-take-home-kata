@@ -1,4 +1,4 @@
-import { TimeDeposit } from "../../entities/TimeDeposit"
+import type { TimeDeposit } from "../../entities/TimeDeposit"
 
 export interface InterestCalculator {
     calculateInterests(deposit: TimeDeposit): number

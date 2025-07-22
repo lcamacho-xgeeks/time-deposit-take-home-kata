@@ -1,10 +1,10 @@
-import { TimeDepositAggregate } from "../entities/TimeDepositAggregate";
-import { TimeDepositRepository } from "../ports/repositories/TimeDepositRepository.interface";
+import type { TimeDepositWithWithdrawal } from "../entities/TimeDepositAggregate";
+import type { TimeDepositWithWithdrawalRepository } from "../ports/repositories/TimeDepositWithdrawlRepository.interface";
 
 export class GetAllDepositsUseCase {
-    constructor(private readonly database: TimeDepositRepository) {}
+    constructor(private readonly database: TimeDepositWithWithdrawalRepository) {}
 
-    public getAllDeposits(): TimeDepositAggregate[] {
+    public getAllDeposits(): TimeDepositWithWithdrawal[] {
         return this.database.getAllDepositsWithWithdrawals()
     }
 }

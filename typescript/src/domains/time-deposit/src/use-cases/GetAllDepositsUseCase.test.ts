@@ -1,7 +1,7 @@
 import { 
   GetAllDepositsUseCase,
   InMemoryTimeDepositRepository, 
-  TimeDepositAggregate,
+  TimeDepositWithWithdrawal,
   Withdrawal
 } from "@time-deposit-kata/time-deposit-domain"
 
@@ -15,9 +15,9 @@ describe('GetAllDepositsUseCase', () => {
       const withdrawals1 = [new Withdrawal(1, 500.0, new Date('2024-01-15'))]
       const withdrawals2 = [new Withdrawal(2, 1000.0, new Date('2024-02-10')), new Withdrawal(3, 250.0, new Date('2024-02-20'))]
       const deposits = [
-        new TimeDepositAggregate(1, 'basic', 10000.0, 60, withdrawals1),
-        new TimeDepositAggregate(2, 'student', 15000.0, 100, withdrawals2),
-        new TimeDepositAggregate(3, 'premium', 20000.0, 80)
+        new TimeDepositWithWithdrawal(1, 'basic', 10000.0, 60, withdrawals1),
+        new TimeDepositWithWithdrawal(2, 'student', 15000.0, 100, withdrawals2),
+        new TimeDepositWithWithdrawal(3, 'premium', 20000.0, 80)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
@@ -37,7 +37,7 @@ describe('GetAllDepositsUseCase', () => {
     })
 
     test('Should return empty array when repository is empty', () => {
-      const deposits: TimeDepositAggregate[] = []
+      const deposits: TimeDepositWithWithdrawal[] = []
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
       
@@ -49,7 +49,7 @@ describe('GetAllDepositsUseCase', () => {
 
     test('Should return single deposit when repository has one item', () => {
       const withdrawals = [new Withdrawal(1, 5000.0, new Date('2024-03-15'))]
-      const deposits = [new TimeDepositAggregate(42, 'premium', 50000.0, 120, withdrawals)]
+      const deposits = [new TimeDepositWithWithdrawal(42, 'premium', 50000.0, 120, withdrawals)]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
       
@@ -65,8 +65,8 @@ describe('GetAllDepositsUseCase', () => {
   describe('Data integrity', () => {
     test('Should maintain deposit IDs correctly', () => {
       const deposits = [
-        new TimeDepositAggregate(999, 'basic', 10000.0, 60),
-        new TimeDepositAggregate(1001, 'student', 15000.0, 100)
+        new TimeDepositWithWithdrawal(999, 'basic', 10000.0, 60),
+        new TimeDepositWithWithdrawal(1001, 'student', 15000.0, 100)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
@@ -81,9 +81,9 @@ describe('GetAllDepositsUseCase', () => {
 
     test('Should maintain plan types correctly', () => {
       const deposits = [
-        new TimeDepositAggregate(1, 'basic', 10000.0, 60),
-        new TimeDepositAggregate(2, 'student', 15000.0, 100),
-        new TimeDepositAggregate(3, 'premium', 20000.0, 80)
+        new TimeDepositWithWithdrawal(1, 'basic', 10000.0, 60),
+        new TimeDepositWithWithdrawal(2, 'student', 15000.0, 100),
+        new TimeDepositWithWithdrawal(3, 'premium', 20000.0, 80)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
@@ -101,9 +101,9 @@ describe('GetAllDepositsUseCase', () => {
     test('Should maintain balance amounts correctly', () => {
       const withdrawals = [new Withdrawal(1, 100.0, new Date('2024-01-10'))]
       const deposits = [
-        new TimeDepositAggregate(1, 'basic', 1234.56, 60, withdrawals),
-        new TimeDepositAggregate(2, 'student', 0.01, 100),
-        new TimeDepositAggregate(3, 'premium', 1000000.99, 80)
+        new TimeDepositWithWithdrawal(1, 'basic', 1234.56, 60, withdrawals),
+        new TimeDepositWithWithdrawal(2, 'student', 0.01, 100),
+        new TimeDepositWithWithdrawal(3, 'premium', 1000000.99, 80)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
@@ -121,9 +121,9 @@ describe('GetAllDepositsUseCase', () => {
 
     test('Should maintain days correctly', () => {
       const deposits = [
-        new TimeDepositAggregate(1, 'basic', 10000.0, 30),
-        new TimeDepositAggregate(2, 'student', 15000.0, 365),
-        new TimeDepositAggregate(3, 'premium', 20000.0, 1000)
+        new TimeDepositWithWithdrawal(1, 'basic', 10000.0, 30),
+        new TimeDepositWithWithdrawal(2, 'student', 15000.0, 365),
+        new TimeDepositWithWithdrawal(3, 'premium', 20000.0, 1000)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
@@ -142,8 +142,8 @@ describe('GetAllDepositsUseCase', () => {
   describe('Edge cases', () => {
     test('Should handle deposits with zero balance', () => {
       const deposits = [
-        new TimeDepositAggregate(1, 'basic', 0.0, 60),
-        new TimeDepositAggregate(2, 'student', 10000.0, 100)
+        new TimeDepositWithWithdrawal(1, 'basic', 0.0, 60),
+        new TimeDepositWithWithdrawal(2, 'student', 10000.0, 100)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
@@ -158,7 +158,7 @@ describe('GetAllDepositsUseCase', () => {
     })
 
     test('Should handle deposits with very small balances', () => {
-      const deposits = [new TimeDepositAggregate(1, 'basic', 0.001, 60)]
+      const deposits = [new TimeDepositWithWithdrawal(1, 'basic', 0.001, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
       
@@ -171,7 +171,7 @@ describe('GetAllDepositsUseCase', () => {
 
     test('Should handle deposits with very large balances', () => {
       const withdrawals = [new Withdrawal(1, 50000.0, new Date('2024-04-01'))]
-      const deposits = [new TimeDepositAggregate(1, 'premium', 999999999.99, 60, withdrawals)]
+      const deposits = [new TimeDepositWithWithdrawal(1, 'premium', 999999999.99, 60, withdrawals)]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
       
@@ -184,7 +184,7 @@ describe('GetAllDepositsUseCase', () => {
     })
 
     test('Should handle deposits with zero days', () => {
-      const deposits = [new TimeDepositAggregate(1, 'basic', 10000.0, 0)]
+      const deposits = [new TimeDepositWithWithdrawal(1, 'basic', 10000.0, 0)]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
       
@@ -196,7 +196,7 @@ describe('GetAllDepositsUseCase', () => {
     })
 
     test('Should handle unknown plan types', () => {
-      const deposits = [new TimeDepositAggregate(1, 'unknown', 10000.0, 60)]
+      const deposits = [new TimeDepositWithWithdrawal(1, 'unknown', 10000.0, 60)]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)
       
@@ -212,8 +212,8 @@ describe('GetAllDepositsUseCase', () => {
     test('Should return consistent results on multiple calls', () => {
       const withdrawals = [new Withdrawal(1, 2500.0, new Date('2024-05-20'))]
       const deposits = [
-        new TimeDepositAggregate(1, 'basic', 10000.0, 60, withdrawals),
-        new TimeDepositAggregate(2, 'student', 15000.0, 100)
+        new TimeDepositWithWithdrawal(1, 'basic', 10000.0, 60, withdrawals),
+        new TimeDepositWithWithdrawal(2, 'student', 15000.0, 100)
       ]
       repository = new InMemoryTimeDepositRepository(deposits)
       useCase = new GetAllDepositsUseCase(repository)

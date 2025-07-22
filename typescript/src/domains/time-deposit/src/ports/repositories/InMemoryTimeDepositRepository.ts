@@ -1,17 +1,17 @@
-import { TimeDeposit } from "../../entities/TimeDeposit";
-import { TimeDepositAggregate } from "../../entities/TimeDepositAggregate";
-import { TimeDepositAggregateRepository } from "./TimeDepositAggregateRepository.interface";
-import { TimeDepositRepository } from "./TimeDepositRepository.interface";
+import type { TimeDeposit } from "../../entities/TimeDeposit";
+import type { TimeDepositWithWithdrawal } from "../../entities/TimeDepositAggregate";
+import type { TimeDepositWithWithdrawalRepository } from "./TimeDepositWithdrawlRepository.interface";
+import type { TimeDepositRepository } from "./TimeDepositRepository.interface";
 
 
-export class InMemoryTimeDepositRepository implements TimeDepositRepository, TimeDepositAggregateRepository {
-    constructor(private database: TimeDepositAggregate[] = []) {}
+export class InMemoryTimeDepositRepository implements TimeDepositRepository, TimeDepositWithWithdrawalRepository {
+    constructor(private database: TimeDepositWithWithdrawal[] = []) {}
 
-    getAllDepositsWithWithdrawals(): TimeDepositAggregate[] {
+    getAllDepositsWithWithdrawals(): TimeDepositWithWithdrawal[] {
         return this.database
     }
 
-    updateAll(timeDeposits: TimeDepositAggregate[]) {
+    updateAll(timeDeposits: TimeDepositWithWithdrawal[]) {
         this.database = timeDeposits;
     }
 
