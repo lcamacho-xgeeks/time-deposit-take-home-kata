@@ -1,6 +1,7 @@
 import {
   GetAllDepositsUseCase,
   UpdateBalanceUseCase,
+  TimeDepositCalculator,
   BasicPlanInterestCalculator,
   PremiumPlanInterestCalculator,
   StudentPlanInterestCalculator,
@@ -36,9 +37,13 @@ export class Container {
     ];
     
     this.getAllDepositsUseCase = new GetAllDepositsUseCase(this.timeDepositRepository);
-    this.updateBalanceUseCase = new UpdateBalanceUseCase(
+    const calculator = new TimeDepositCalculator(
       this.timeDepositRepository,
       this.interestCalculators
+    );
+    this.updateBalanceUseCase = new UpdateBalanceUseCase(
+      this.timeDepositRepository,
+      calculator
     );
   }
 

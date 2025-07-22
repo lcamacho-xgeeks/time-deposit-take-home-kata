@@ -12,8 +12,7 @@ app.get('/deposits', async (c) => {
 
 app.put('/deposits/update-balance', async (c) => {
   const updateBalanceUseCase = container.getUpdateBalanceUseCase();
-  const timeDeposits = (await c.req.json()).deposits;
-  await updateBalanceUseCase.updateBalance(timeDeposits);
+  await updateBalanceUseCase.updateBalance();
   return c.json({ message: 'Balances updated successfully' });
 });
 

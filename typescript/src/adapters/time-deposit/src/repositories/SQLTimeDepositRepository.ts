@@ -10,6 +10,9 @@ export class SQLTimeDepositRepository implements TimeDepositRepository, TimeDepo
         const deposits = await this.prisma.timeDeposit.findMany({
             include: {
                 withdrawals: true
+            },
+            orderBy: {
+                id: 'asc',
             }
         })
 
