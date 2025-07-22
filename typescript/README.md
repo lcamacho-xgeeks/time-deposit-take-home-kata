@@ -39,7 +39,7 @@ start docker services
 
 Setup the environment variables
 
-`mv src/adapters/time-deposit/.env.example src/adapters/time-deposit/.env`
+`cp src/adapters/time-deposit/.env.example src/adapters/time-deposit/.env`
 
 Run the database migrations
 
@@ -59,6 +59,26 @@ Create database seed
 
 `yarn test:watch`
 
+To run integration tests using test-container execute
+
+`yarn test:integration:watch`
+
 ### Run server
 
 `yarn start`
+
+### API Endpoint
+
+To get all time-deposits with withdrawals
+
+```bash
+curl --request GET \
+  --url http://localhost:3000/deposits 
+```
+
+To update all time-deposit interests
+
+```bash
+curl --request PUT \
+  --url http://localhost:3000/deposits/update-balance
+```
