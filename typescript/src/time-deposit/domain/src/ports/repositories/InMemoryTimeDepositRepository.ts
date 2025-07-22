@@ -1,7 +1,7 @@
 import type { TimeDeposit } from "../../entities/TimeDeposit";
 import type { TimeDepositWithWithdrawal } from "../../entities/TimeDepositAggregate";
 import type { TimeDepositRepository } from "./TimeDepositRepository.interface";
-import { TimeDepositWithWithdrawalRepository } from "./TimeDepositWithdrawalRepository.interface";
+import type { TimeDepositWithWithdrawalRepository } from "./TimeDepositWithdrawalRepository.interface";
 
 
 export class InMemoryTimeDepositRepository implements TimeDepositRepository, TimeDepositWithWithdrawalRepository {

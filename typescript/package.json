@@ -7,9 +7,9 @@
   "main": "src/index.ts",
   "private": true,
   "workspaces": [
-    "src/adapters/*",
     "src/apps/*",
-    "src/domains/*"
+    "src/time-deposit/adapters",
+    "src/time-deposit/domain"
   ],
   "scripts": {
     "dev": "yarn workspace api run dev",

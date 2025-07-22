@@ -3,20 +3,16 @@ module.exports = {
   testEnvironment: 'node',
   projects: [
     {
-      displayName: 'root',
-      testMatch: ['<rootDir>/src/tests/**/*.test.ts']
-    },
-    {
       displayName: 'domains',
-      testMatch: ['<rootDir>/src/domains/*/src/**/*.test.ts']
+      testMatch: ['<rootDir>/src/*/domain/src/**/*.test.ts']
     },
     {
       displayName: 'integration', 
-      testMatch: ['<rootDir>/src/adapters/*/src/**/*.integration.test.ts'],
+      testMatch: ['<rootDir>/src/*/adapters/src/**/*.integration.test.ts'],
     },
     {
       displayName: 'adapters',
-      testMatch: ['<rootDir>/src/adapters/*/src/**/*.test.ts'],
+      testMatch: ['<rootDir>/src/*/adapters/src/**/*.test.ts'],
       testPathIgnorePatterns: ['integration']
     },
     {
